@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Tesla Setup Callback</title>
+  <style>
+    :root {
+      --bg1: #0b0f14;
+      --bg2: #101722;
+      --card: rgba(19, 26, 34, 0.94);
+      --text: #eef3f8;
+      --muted: #a9b4c0;
+      --accent: #4da3ff;
+      --accent2: #73b7ff;
+      --border: #253140;
+      --success: #2fbf71;
+      --warn: #ffb84d;
+      --shadow: rgba(0, 0, 0, 0.28);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+        Roboto, Helvetica, Arial, sans-serif;
+      background: linear-gradient(180deg, var(--bg1) 0%, var(--bg2) 100%);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: max(18px, env(safe-area-inset-top)) 16px max(30px, env(safe-area-inset-bottom));
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 16px 38px var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.86rem;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(77, 163, 255, 0.14);
+      color: #d8ebff;
+      border: 1px solid rgba(77, 163, 255, 0.34);
+      margin-bottom: 14px;
+    }
+
+    .pill-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 10px rgba(47, 191, 113, 0.55);
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 1.95rem;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+    }
+
+    .lead {
+      margin: 0 0 14px;
+      font-size: 1.02rem;
+      color: var(--text);
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .hero {
+      margin: 18px 0 16px;
+      border-radius: 22px;
+      padding: 18px 16px 20px;
+      background:
+        radial-gradient(circle at top right, rgba(77,163,255,0.18), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .share-icon-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .share-icon {
+      width: 92px;
+      height: 92px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(77,163,255,0.22), rgba(77,163,255,0.10));
+      border: 1px solid rgba(77,163,255,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 10px 24px rgba(0,0,0,0.18);
+    }
+
+    .share-icon svg {
+      width: 46px;
+      height: 46px;
+      stroke: var(--accent2);
+      stroke-width: 2.2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .hero-title {
+      font-size: 1.28rem;
+      font-weight: 750;
+      margin-bottom: 6px;
+    }
+
+    .hero-sub {
+      color: var(--muted);
+      font-size: 0.98rem;
+      margin-bottom: 14px;
+    }
+
+    .big-arrow {
+      font-size: 1.9rem;
+      line-height: 1;
+      margin: 8px 0 12px;
+      color: var(--accent2);
+    }
+
+    .cta-chip {
+      display: inline-block;
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 1rem;
+      background: linear-gradient(180deg, var(--accent), #2f89eb);
+      color: white;
+      box-shadow: 0 8px 22px rgba(77,163,255,0.28);
+    }
+
+    .status {
+      margin: 16px 0;
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .status.ok {
+      border-color: rgba(47,191,113,0.35);
+      background: rgba(47,191,113,0.08);
+    }
+
+    .status.warn {
+      border-color: rgba(255,184,77,0.35);
+      background: rgba(255,184,77,0.08);
+    }
+
+    .urlbox {
+      margin: 16px 0 14px;
+      background: #0b1118;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+      overflow-wrap: anywhere;
+      word-break: break-word;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.9rem;
+      color: #d8e5f3;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 12px 0 18px;
+    }
+
+    button {
+      appearance: none;
+      border: 0;
+      border-radius: 14px;
+      padding: 13px 16px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      min-height: 48px;
+    }
+
+    .primary {
+      background: linear-gradient(180deg, var(--accent), #2f89eb);
+      color: white;
+      box-shadow: 0 8px 20px rgba(77,163,255,0.24);
+    }
+
+    .secondary {
+      background: #1b2430;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .section-title {
+      margin: 22px 0 10px;
+      font-size: 1.05rem;
+      font-weight: 750;
+    }
+
+    .steps {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 36px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.025);
+    }
+
+    .step-num {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: rgba(77,163,255,0.14);
+      border: 1px solid rgba(77,163,255,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #d8ebff;
+    }
+
+    .step strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .note {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .footer {
+      margin-top: 16px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg1: #eef4fa;
+        --bg2: #f8fbff;
+        --card: rgba(255,255,255,0.97);
+        --text: #122033;
+        --muted: #5f6f82;
+        --accent: #1677ff;
+        --accent2: #1677ff;
+        --border: #d9e2ec;
+        --success: #138a4b;
+        --warn: #9a6500;
+        --shadow: rgba(16, 24, 40, 0.08);
+      }
+
+      .urlbox {
+        background: #f7fafc;
+        color: #213041;
+      }
+
+      .secondary {
+        background: #f7fafc;
+      }
+
+      .hero {
+        background:
+          radial-gradient(circle at top right, rgba(22,119,255,0.10), transparent 34%),
+          linear-gradient(180deg, rgba(0,0,0,0.01), rgba(0,0,0,0.015));
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="pill">
+        <span class="pill-dot"></span>
+        Tesla OAuth callback received
+      </div>
+
+      <h1>Finish setup in Shortcuts</h1>
+      <p class="lead">
+        Tesla sent you back here after sign-in. Now send this page’s URL to your Shortcut using the iPhone share sheet.
+      </p>
+
+      <div class="hero">
+        <div class="share-icon-wrap">
+          <div class="share-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 16V4"></path>
+              <path d="M8 8l4-4 4 4"></path>
+              <path d="M5 14v4a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-4"></path>
+            </svg>
+          </div>
+        </div>
+        <div class="hero-title">Tap Share in Safari</div>
+        <div class="hero-sub">Then choose your Shortcut to send this callback URL back for processing.</div>
+        <div class="big-arrow">↓</div>
+        <div class="cta-chip">Share → Tesla Callback</div>
+      </div>
+
+      <div id="status" class="status">
+        Checking callback parameters...
+      </div>
+
+      <div class="urlbox" id="fullUrl"></div>
+
+      <div class="actions">
+        <button class="primary" id="copyBtn">Copy URL</button>
+        <button class="secondary" id="shareHelpBtn">Show steps</button>
+      </div>
+
+      <div class="section-title">How to send this back to Shortcuts</div>
+      <ol class="steps" id="steps">
+        <li class="step">
+          <div class="step-num">1</div>
+          <div>
+            <strong>Tap Safari’s Share button</strong>
+            Look for the iPhone share icon at the bottom of Safari.
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">2</div>
+          <div>
+            <strong>Choose your Shortcut</strong>
+            Tap your shortcut, such as <em>Tesla Callback</em>.
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">3</div>
+          <div>
+            <strong>If you do not see it</strong>
+            Scroll down, tap <em>Edit Actions</em>, and enable your shortcut in the share sheet.
+          </div>
+        </li>
+        <li class="step">
+          <div class="step-num">4</div>
+          <div>
+            <strong>Let the Shortcut finish setup</strong>
+            Your shortcut should read this page URL and extract values like <code>code</code>, <code>state</code>, or any returned error.
+          </div>
+        </li>
+      </ol>
+
+      <div class="note">
+        <strong>Shortcut setup note:</strong> the shortcut should accept input from the share sheet as a <strong>URL</strong> or <strong>Safari Web Page</strong>.
+      </div>
+
+      <div class="footer">
+        You can leave this page open until the shortcut completes.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const fullUrlEl = document.getElementById("fullUrl");
+      const statusEl = document.getElementById("status");
+      const copyBtn = document.getElementById("copyBtn");
+      const shareHelpBtn = document.getElementById("shareHelpBtn");
+      const stepsEl = document.getElementById("steps");
+
+      const fullUrl = window.location.href;
+      const params = new URLSearchParams(window.location.search);
+
+      const hasCode = params.has("code");
+      const hasState = params.has("state");
+      const hasError = params.has("error");
+
+      fullUrlEl.textContent = fullUrl;
+
+      if (hasError) {
+        const error = params.get("error") || "unknown_error";
+        const description = params.get("error_description") || "No description provided.";
+        statusEl.className = "status warn";
+        statusEl.innerHTML =
+          "<strong>Authorization returned an error.</strong><br>" +
+          "<span class='muted'>" + escapeHtml(error) + " — " + escapeHtml(description) + "</span>";
+      } else if (hasCode) {
+        statusEl.className = "status ok";
+        statusEl.innerHTML =
+          "<strong>Success:</strong> authorization code detected" +
+          (hasState ? " and state was included." : ".");
+      } else {
+        statusEl.className = "status warn";
+        statusEl.innerHTML =
+          "<strong>No authorization code was found.</strong><br>" +
+          "<span class='muted'>If setup did not complete, try signing in again.</span>";
+      }
+
+      copyBtn.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(fullUrl);
+          const old = copyBtn.textContent;
+          copyBtn.textContent = "Copied";
+          setTimeout(() => (copyBtn.textContent = old), 1400);
+        } catch (e) {
+          const old = copyBtn.textContent;
+          copyBtn.textContent = "Copy failed";
+          setTimeout(() => (copyBtn.textContent = old), 1400);
+        }
+      });
+
+      shareHelpBtn.addEventListener("click", () => {
+        stepsEl.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      function escapeHtml(str) {
+        return String(str)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#39;");
+      }
+    })();
+  </script>
+</body>
+</html>
