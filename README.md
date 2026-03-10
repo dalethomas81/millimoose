@@ -20,14 +20,11 @@ Tesla docs: `https://developer.tesla.com/docs/fleet-api/getting-started/what-is-
 ## Create a Github account
 `https://github.com`
 - Create a repo
-- Create a public key see [here](https://github.com/dalethomas81/millimoose/edit/main/README.md#how-to-make-a-public-key)
+- Create a public key
+  - make folder where ssl key will be stored `mkdir -p ~/Documents/tesla-key`
+  - move to created folder `cd ~/Documents/tesla-key`
+  - generate private key (DO NOT SHARE THIS!) `openssl ecparam -name prime256v1 -genkey -noout -out tesla_private.pem`
+  - generate public key from private key `openssl ec -in tesla_private.pem -pubout -out com.tesla.3p.public-key.pem`
+  - optionally read out public key `cat com.tesla.3p.public-key.pem`
 - Create pem file in repo `.well-known/appspecific/com.tesla.3p.public-key.pem`
 - Configure Github Pages
-
-## How to make a public key
-### MacOS
-- make folder where ssl key will be stored `mkdir -p ~/Documents/tesla-key`
-- move to created folder `cd ~/Documents/tesla-key`
-- generate private key (DO NOT SHARE THIS!) `openssl ecparam -name prime256v1 -genkey -noout -out tesla_private.pem`
-- generate public key from private key `openssl ec -in tesla_private.pem -pubout -out com.tesla.3p.public-key.pem`
-- optionally read out public key `cat com.tesla.3p.public-key.pem`
