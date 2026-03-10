@@ -32,13 +32,13 @@ Tesla docs: `https://developer.tesla.com/docs/fleet-api/getting-started/what-is-
 - Configure Github Pages
 
 ## Install Shortcuts
-- Tesla Setup `https://www.icloud.com/shortcuts/b87bf34a7c404f638c1a7e72aeea5076`
-- Tesla Setup Authorization `https://www.icloud.com/shortcuts/83758460d3d94c14acc7a9006772bfb6`
-- Tesla Setup Get Tokens `https://www.icloud.com/shortcuts/b8901757cab7444183c629849254d69c`
-- Tesla Setup Register Partner `https://www.icloud.com/shortcuts/b62ac0bfc27e4e46bbd932a7c93cb7b1`
-- Tesla Get Vehicle Status `https://www.icloud.com/shortcuts/f4ebfe1ac48d4c2c858dae2bc1edc71e`
-- Tesla Refresh Tokens `https://www.icloud.com/shortcuts/c47c0bd967d94a0299a40075985b0f57`
-- Tesla Hello World `https://www.icloud.com/shortcuts/455ccbafc2a441b2be3486fccbf6f620`
+- [Tesla Setup](https://www.icloud.com/shortcuts/b87bf34a7c404f638c1a7e72aeea5076)
+- [Tesla Setup Authorization](https://www.icloud.com/shortcuts/83758460d3d94c14acc7a9006772bfb6)
+- [Tesla Setup Get Tokens](https://www.icloud.com/shortcuts/b8901757cab7444183c629849254d69c)
+- [Tesla Setup Register Partner](https://www.icloud.com/shortcuts/b62ac0bfc27e4e46bbd932a7c93cb7b1)
+- [Tesla Get Vehicle Status](https://www.icloud.com/shortcuts/f4ebfe1ac48d4c2c858dae2bc1edc71e)
+- [Tesla Refresh Tokens](https://www.icloud.com/shortcuts/c47c0bd967d94a0299a40075985b0f57)
+- [Tesla Hello World](https://www.icloud.com/shortcuts/455ccbafc2a441b2be3486fccbf6f620)
 
 ## Run Tesla Setup Shortcut
 - Enter in values from Developer Account
