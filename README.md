@@ -37,9 +37,9 @@ Tesla docs: `https://developer.tesla.com/docs/fleet-api/getting-started/what-is-
 - add a file named `CNAME` to the root of the repo. the contents should be your domain name like `tesla.millimoose.com`
 - (optional) add a file named `v1/callback/index.html` to the repo. the contents should be [this](https://github.com/dalethomas81/millimoose/blob/main/v1/callback/index.html)
 
-## Buy a domain
-`https://www.godaddy.com`
-note: i'm not totally certain this step is required. it may be possible to use onoy the Pages feature of Github.  
+## Get a domain (optional?)
+`https://www.godaddy.com`  
+note: i'm not totally certain this step is required. it may be possible to use only the Pages feature of Github.  
 - configure DNS settings by adding a new DNS record
   - Type: `CNAME`
   - Name: `tesla` (this can be anything and will be used like www.tesla.millimoose.com)
