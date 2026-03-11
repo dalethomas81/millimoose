@@ -16,9 +16,6 @@
 
 Tesla docs: `https://developer.tesla.com/docs/fleet-api/getting-started/what-is-fleet-api`
 
-## Buy a domain
-`https://www.godaddy.com`
-
 ## Create a Github account
 `https://github.com`
 - Create a repo
@@ -29,7 +26,25 @@ Tesla docs: `https://developer.tesla.com/docs/fleet-api/getting-started/what-is-
   - generate public key from private key `openssl ec -in tesla_private.pem -pubout -out com.tesla.3p.public-key.pem`
   - optionally read out public key `cat com.tesla.3p.public-key.pem`
 - Create pem file in repo `.well-known/appspecific/com.tesla.3p.public-key.pem`
+  - the contents of the file should be the public key
 - Configure Github Pages
+  - Repo Settings -> Pages
+  - enable pages by choosing a source branch and saving
+  - enter your custom domain and save
+    - for example this repo is configured like `tesla.millimoose.com` (the tesla part will be configured in the DNS record in GoDaddy)
+  - enable `enforce http`
+- add a file named `.nojekyll` to the root of the repo. this will disable jekyll processing and make it so files and directories are not ignored
+- add a file named `CNAME` to the root of the repo. the contents should be your domain name like `tesla.millimoose.com`
+- (optional) add a file named `v1/callback/index.html` to the repo. the contents should be [this](https://github.com/dalethomas81/millimoose/blob/main/v1/callback/index.html)
+
+## Buy a domain
+`https://www.godaddy.com`
+- configure DNS settings by adding a new DNS record
+  - Type: `CNAME`
+  - Name: `tesla` (this can be anything and will be used like www.tesla.millimoose.com)
+  - Data: `<username>.github.io.`
+  - TTL: `default`
+- the DNS record can take 15 minutes to start working
 
 ## Install Shortcuts
 - [Tesla Setup](https://www.icloud.com/shortcuts/b87bf34a7c404f638c1a7e72aeea5076)
