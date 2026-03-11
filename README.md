@@ -39,6 +39,7 @@ Tesla docs: `https://developer.tesla.com/docs/fleet-api/getting-started/what-is-
 
 ## Buy a domain
 `https://www.godaddy.com`
+note: i'm not totally certain this step is required. it may be possible to use onoy the Pages feature of Github.  
 - configure DNS settings by adding a new DNS record
   - Type: `CNAME`
   - Name: `tesla` (this can be anything and will be used like www.tesla.millimoose.com)
