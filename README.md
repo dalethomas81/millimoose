@@ -48,13 +48,27 @@ note: i'm not totally certain this step is required. it may be possible to use o
 - the DNS record can take 15 minutes to start working
 
 ## Install Shortcuts
-- [Tesla Setup](https://www.icloud.com/shortcuts/b87bf34a7c404f638c1a7e72aeea5076)
-- [Tesla Setup Authorization](https://www.icloud.com/shortcuts/83758460d3d94c14acc7a9006772bfb6)
-- [Tesla Setup Get Tokens](https://www.icloud.com/shortcuts/b8901757cab7444183c629849254d69c)
-- [Tesla Setup Register Partner](https://www.icloud.com/shortcuts/b62ac0bfc27e4e46bbd932a7c93cb7b1)
-- [Tesla Get Vehicle Status](https://www.icloud.com/shortcuts/f4ebfe1ac48d4c2c858dae2bc1edc71e)
-- [Tesla Refresh Tokens](https://www.icloud.com/shortcuts/c47c0bd967d94a0299a40075985b0f57)
-- [Tesla Hello World](https://www.icloud.com/shortcuts/455ccbafc2a441b2be3486fccbf6f620)
+- Tesla Setup
+  [Install via iCloud](https://www.icloud.com/shortcuts/c5f5b142e20d4c96909060c309f457f6)
+  [Download exported shortcut](./Shortcuts/Tesla%20Setup.shortcut)
+- Tesla Setup Authorization
+  [Install via iCloud](https://www.icloud.com/shortcuts/78150c250fae42d5b341926ac86253b9)
+  [Download exported shortcut](./Shortcuts/Tesla%20Setup%20Authorization.shortcut)
+- Tesla Setup Get Tokens
+  [Install via iCloud](https://www.icloud.com/shortcuts/8e987df1543046b28c6d8b060e3ddc53)
+  [Download exported shortcut](./Shortcuts/Tesla%20Setup%20Get%20Tokens.shortcut)
+- Tesla Setup Register Partner
+  [Install via iCloud](https://www.icloud.com/shortcuts/c0d3d6e5245f4005a2f3e434bcfeb854)
+  [Download exported shortcut](./Shortcuts/Tesla%20Setup%20Register%20Partner.shortcut)
+- Tesla Get Vehicle Status
+  [Install via iCloud](https://www.icloud.com/shortcuts/8094de32e1f24e4b830aaf2e647fe543)
+  [Download exported shortcut](./Shortcuts/Tesla%20Get%20Vehicle%20Status.shortcut)
+- Tesla Refresh Tokens
+  [Install via iCloud](https://www.icloud.com/shortcuts/44e3c4e87b404264b8e79d09a976f09a)
+  [Download exported shortcut](./Shortcuts/Tesla%20Refresh%20Tokens.shortcut)
+- Tesla Hello World
+  [Install via iCloud](https://www.icloud.com/shortcuts/d32e1b9f4ad84e21b52e4b01ff2fa1c6)
+  [Download exported shortcut](./Shortcuts/Tesla%20Hello%20World.shortcut)
 
 ## Run Tesla Setup Shortcut
 - Enter in values from Developer Account
