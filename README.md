@@ -143,7 +143,7 @@ Note:
 You can install each shortcut either from its iCloud link or from the exported `.shortcut` file in this repo.
 
 - Tesla Setup
-  [Install via iCloud](https://www.icloud.com/shortcuts/c5f5b142e20d4c96909060c309f457f6)
+  [Install via iCloud](https://www.icloud.com/shortcuts/af3061a8253a45a981fa9b4f530a7459)
   [Download exported shortcut](./Shortcuts/Tesla%20Setup.shortcut)
 - Tesla Setup Authorization
   [Install via iCloud](https://www.icloud.com/shortcuts/78150c250fae42d5b341926ac86253b9)
@@ -155,7 +155,7 @@ You can install each shortcut either from its iCloud link or from the exported `
   [Install via iCloud](https://www.icloud.com/shortcuts/c0d3d6e5245f4005a2f3e434bcfeb854)
   [Download exported shortcut](./Shortcuts/Tesla%20Setup%20Register%20Partner.shortcut)
 - Tesla Get Vehicle Status
-  [Install via iCloud](https://www.icloud.com/shortcuts/8094de32e1f24e4b830aaf2e647fe543)
+  [Install via iCloud](https://www.icloud.com/shortcuts/1b53e34ca6df4bdab97d9688e846697d)
   [Download exported shortcut](./Shortcuts/Tesla%20Get%20Vehicle%20Status.shortcut)
 - Tesla Refresh Tokens
   [Install via iCloud](https://www.icloud.com/shortcuts/44e3c4e87b404264b8e79d09a976f09a)
