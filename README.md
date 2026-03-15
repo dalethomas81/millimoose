@@ -143,7 +143,7 @@ Note:
 You can install each shortcut either from its iCloud link or from the exported `.shortcut` file in this repo.
 
 - Tesla Setup
-  [Install via iCloud](https://www.icloud.com/shortcuts/c5f5b142e20d4c96909060c309f457f6)
+  [Install via iCloud](https://www.icloud.com/shortcuts/af3061a8253a45a981fa9b4f530a7459)
   [Download exported shortcut](./Shortcuts/Tesla%20Setup.shortcut)
 - Tesla Setup Authorization
   [Install via iCloud](https://www.icloud.com/shortcuts/78150c250fae42d5b341926ac86253b9)
