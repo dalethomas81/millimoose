@@ -1,71 +1,234 @@
-# How to use iOS Shortcuts to get the status of your Tesla
+# Tesla Fleet API Shortcuts
 
-<img width="600" alt="image" src="https://github.com/user-attachments/assets/9c9db925-8883-4419-9a1c-20380e1879f0" />
+Use these Apple Shortcuts to authenticate with the Tesla Fleet API, register your app, and retrieve vehicle status data.
 
-## Create a Tesla developer account
-`https://developer.tesla.com`
-- Create new application
-- OAuth Grant Type should be `Authorization Code and Machine-to-Machine`
-- Allowed origin url should be `https://app.host.com`
-- Allowed callback uri should be `https://app.host.com/v1/callback`
-- API Scopes should be
-  - Vehicle Information
-  - Vehicle Location
-  - Vehicle Commands
-  - Vehicle Charging Management
+<img width="600" alt="Tesla Shortcuts screenshot" src="https://github.com/user-attachments/assets/9c9db925-8883-4419-9a1c-20380e1879f0" />
 
-Tesla docs: `https://developer.tesla.com/docs/fleet-api/getting-started/what-is-fleet-api`
+## What this repo includes
 
-## Create a Github account
-`https://github.com`
-- Create a repo
-- Create a public key
-  - make folder where ssl key will be stored `mkdir -p ~/Documents/tesla-key`
-  - move to created folder `cd ~/Documents/tesla-key`
-  - generate private key (DO NOT SHARE THIS!) `openssl ecparam -name prime256v1 -genkey -noout -out tesla_private.pem`
-  - generate public key from private key `openssl ec -in tesla_private.pem -pubout -out com.tesla.3p.public-key.pem`
-  - optionally read out public key `cat com.tesla.3p.public-key.pem`
-- Create pem file in repo `.well-known/appspecific/com.tesla.3p.public-key.pem`
-  - the contents of the file should be the public key
-- Configure Github Pages
-  - Repo Settings -> Pages
-  - enable pages by choosing a source branch and saving
-  - enter your custom domain and save
-    - for example this repo is configured like `tesla.millimoose.com` (the tesla part will be configured in the DNS record in GoDaddy)
-  - enable `enforce http`
-- add a file named `.nojekyll` to the root of the repo. this will disable jekyll processing and make it so files and directories are not ignored
-- add a file named `CNAME` to the root of the repo. the contents should be your domain name like `tesla.millimoose.com`
-- (optional) add a file named `v1/callback/index.html` to the repo. the contents should be [this](https://github.com/dalethomas81/millimoose/blob/main/v1/callback/index.html)
+- A static callback page at `v1/callback/index.html`
+- Exported Apple Shortcuts in [`Shortcuts`](./Shortcuts)
+- Setup steps for hosting the callback URL and installing the shortcuts
 
-## Get a domain (optional?)
-`https://www.godaddy.com`  
-note: i'm not totally certain this step is required. it may be possible to use only the Pages feature of Github.  
-- configure DNS settings by adding a new DNS record
-  - Type: `CNAME`
-  - Name: `tesla` (this can be anything and will be used like www.tesla.millimoose.com)
-  - Data: `<username>.github.io.`
-  - TTL: `default`
-- the DNS record can take 15 minutes to start working
+## Prerequisites
 
-## Install Shortcuts
-- [Tesla Setup](https://www.icloud.com/shortcuts/b87bf34a7c404f638c1a7e72aeea5076)
-- [Tesla Setup Authorization](https://www.icloud.com/shortcuts/83758460d3d94c14acc7a9006772bfb6)
-- [Tesla Setup Get Tokens](https://www.icloud.com/shortcuts/b8901757cab7444183c629849254d69c)
-- [Tesla Setup Register Partner](https://www.icloud.com/shortcuts/b62ac0bfc27e4e46bbd932a7c93cb7b1)
-- [Tesla Get Vehicle Status](https://www.icloud.com/shortcuts/f4ebfe1ac48d4c2c858dae2bc1edc71e)
-- [Tesla Refresh Tokens](https://www.icloud.com/shortcuts/c47c0bd967d94a0299a40075985b0f57)
-- [Tesla Hello World](https://www.icloud.com/shortcuts/455ccbafc2a441b2be3486fccbf6f620)
+Before you begin, you will need:
 
-## Run Tesla Setup Shortcut
-- Enter in values from Developer Account
-- Enter in car name from Tesla App
+- A Tesla developer account at `https://developer.tesla.com`
+- A GitHub account and repository
+- A public HTTPS URL for your Tesla app callback
+- Apple Shortcuts on iPhone, iPad, or Mac
 
-## Run Tesla Setup Authorization
-- This will open a web page to authorize the app
-- Once this completes, open the share sheet in Safari and share the web page with the Tesla Setup Get Tokens Shortcut
+## High-level flow
 
-## Run Tesla Setup Register Partner
-- This will register the app in your region
+The setup process works like this:
 
-## Run Tesla Hello World
-- This Shorcut will call the Tesla Get Vehicle Status Shortcut and determine if your car is charging
+1. Create a Tesla developer app.
+2. Generate and publish your Tesla app public key.
+3. Host the callback page from this repo.
+4. Install the shortcuts.
+5. Run the setup shortcuts in order.
+6. Use the status shortcuts after setup is complete.
+
+## 1. Create a Tesla developer app
+
+Go to `https://developer.tesla.com` and create a new application.
+
+Use these settings:
+
+- OAuth Grant Type: `Authorization Code and Machine-to-Machine`
+- Allowed Origin URL: `https://app.host.com`
+- Allowed Callback URI: `https://app.host.com/v1/callback`
+
+Enable these API scopes:
+
+- Vehicle Information
+- Vehicle Location
+- Vehicle Commands
+- Vehicle Charging Management
+
+Tesla Fleet API docs:
+
+- `https://developer.tesla.com/docs/fleet-api/getting-started/what-is-fleet-api`
+
+## 2. Generate a Tesla app public key
+
+Create a folder for your keys:
+
+```bash
+mkdir -p ~/Documents/tesla-key
+cd ~/Documents/tesla-key
+```
+
+Generate a private key:
+
+```bash
+openssl ecparam -name prime256v1 -genkey -noout -out tesla_private.pem
+```
+
+Generate the public key from the private key:
+
+```bash
+openssl ec -in tesla_private.pem -pubout -out com.tesla.3p.public-key.pem
+```
+
+Optional: inspect the generated public key:
+
+```bash
+cat com.tesla.3p.public-key.pem
+```
+
+Important:
+
+- Keep `tesla_private.pem` private.
+- Only publish `com.tesla.3p.public-key.pem`.
+
+## 3. Publish the callback page
+
+This repo is intended to be hosted with GitHub Pages.
+
+### Add the Tesla app public key
+
+Create this file in your repo:
+
+- `.well-known/appspecific/com.tesla.3p.public-key.pem`
+
+Paste the contents of your generated public key into that file.
+
+### Enable GitHub Pages
+
+In your GitHub repository:
+
+1. Open `Settings -> Pages`
+2. Choose the branch to publish
+3. Save
+4. Set your custom domain, if you are using one
+5. Enable HTTPS
+
+This repo also expects:
+
+- `.nojekyll` at the repo root
+- `CNAME` at the repo root if you are using a custom domain
+
+The callback page should be available at:
+
+- `https://app.host.com/v1/callback`
+
+If you want to use the callback page included in this repo, see:
+
+- [`v1/callback/index.html`](./v1/callback/index.html)
+
+## 4. Optional: use a custom domain
+
+If you want a custom domain, configure DNS with your registrar.
+
+Example DNS record:
+
+- Type: `CNAME`
+- Name: `tesla`
+- Data: `<username>.github.io.`
+- TTL: `default`
+
+Then your GitHub Pages site can resolve to something like:
+
+- `https://tesla.example.com`
+
+Note:
+
+- A custom domain is optional.
+- You may be able to use the default GitHub Pages domain instead, as long as the callback URL configured in Tesla matches your published callback page.
+
+## 5. Install the shortcuts
+
+You can install each shortcut either from its iCloud link or from the exported `.shortcut` file in this repo.
+
+- Tesla Setup
+  [Install via iCloud](https://www.icloud.com/shortcuts/c5f5b142e20d4c96909060c309f457f6)
+  [Download exported shortcut](./Shortcuts/Tesla%20Setup.shortcut)
+- Tesla Setup Authorization
+  [Install via iCloud](https://www.icloud.com/shortcuts/78150c250fae42d5b341926ac86253b9)
+  [Download exported shortcut](./Shortcuts/Tesla%20Setup%20Authorization.shortcut)
+- Tesla Setup Get Tokens
+  [Install via iCloud](https://www.icloud.com/shortcuts/8e987df1543046b28c6d8b060e3ddc53)
+  [Download exported shortcut](./Shortcuts/Tesla%20Setup%20Get%20Tokens.shortcut)
+- Tesla Setup Register Partner
+  [Install via iCloud](https://www.icloud.com/shortcuts/c0d3d6e5245f4005a2f3e434bcfeb854)
+  [Download exported shortcut](./Shortcuts/Tesla%20Setup%20Register%20Partner.shortcut)
+- Tesla Get Vehicle Status
+  [Install via iCloud](https://www.icloud.com/shortcuts/8094de32e1f24e4b830aaf2e647fe543)
+  [Download exported shortcut](./Shortcuts/Tesla%20Get%20Vehicle%20Status.shortcut)
+- Tesla Refresh Tokens
+  [Install via iCloud](https://www.icloud.com/shortcuts/44e3c4e87b404264b8e79d09a976f09a)
+  [Download exported shortcut](./Shortcuts/Tesla%20Refresh%20Tokens.shortcut)
+- Tesla Hello World
+  [Install via iCloud](https://www.icloud.com/shortcuts/d32e1b9f4ad84e21b52e4b01ff2fa1c6)
+  [Download exported shortcut](./Shortcuts/Tesla%20Hello%20World.shortcut)
+
+## 6. Run the setup shortcuts in order
+
+Run the shortcuts in this order.
+
+### Tesla Setup
+
+This shortcut collects your configuration values.
+
+Be ready to enter:
+
+- Tesla app client values from your Tesla developer account
+- Your callback domain and callback URL
+- Your preferred vehicle name from the Tesla app
+- Any optional behavior flags, such as wake-related settings
+
+### Tesla Setup Authorization
+
+This opens the Tesla authorization page so you can approve access for your app.
+
+### Tesla Setup Get Tokens
+
+After Tesla redirects to your callback page:
+
+1. Open the page in Safari
+2. Open the share sheet
+3. Send the page to `Tesla Setup Get Tokens`
+
+This shortcut extracts the authorization code and exchanges it for tokens.
+
+### Tesla Setup Register Partner
+
+Run this after tokens are available.
+
+This registers your app in your Tesla region using the Fleet API.
+
+## 7. Use the shortcuts
+
+After setup is complete:
+
+- `Tesla Get Vehicle Status` retrieves vehicle status data
+- `Tesla Refresh Tokens` refreshes the Tesla access token
+- `Tesla Hello World` is a simple example that calls the vehicle status shortcut and checks whether the car is charging
+
+## Notes about configuration
+
+These shortcuts are designed to use a config-based setup rather than hard-coded values.
+
+That means:
+
+- The exported shortcuts are easier to publish safely
+- Secrets should live in your local config and token flow, not in the shortcut definitions themselves
+- If you publish this repo, do not commit live secrets or populated private config data
+
+## Troubleshooting
+
+If setup fails, check these items first:
+
+- The callback URL in Tesla exactly matches your hosted `v1/callback` URL
+- GitHub Pages is published and reachable over HTTPS
+- Your public key file exists at `.well-known/appspecific/com.tesla.3p.public-key.pem`
+- The Tesla developer app has the correct OAuth grant type and scopes
+- You completed the authorization flow and shared the callback page with `Tesla Setup Get Tokens`
+
+If status requests fail for sleeping vehicles:
+
+- Wake the vehicle before requesting status
+- Wait a few seconds after wake before retrying
+- Add retry logic if needed in the status shortcut
